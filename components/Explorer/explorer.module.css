@@ -1,5 +1,9 @@
-.keyMessage {
+.section {
     padding: 1rem;
+}
+
+.section h3 {
+    margin-top: 0;
 }
 
 .keyMessageError {
