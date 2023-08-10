@@ -19,6 +19,8 @@ export default function Header() {
           className={`nojs-show ${!session && loading ? styles.loading : styles.loaded
             }`}
         >
+          <Link href="/" className={styles.homeLink}>Home</Link>
+
           {!session && (
             <>
               <span className={styles.notSignedInText}>
@@ -60,16 +62,6 @@ export default function Header() {
           )}
         </p>
       </div>
-      <nav>
-        <ul className={styles.navItems}>
-          <li className={styles.navItem}>
-            <Link href="/">Home</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/me">User</Link>
-          </li>
-        </ul>
-      </nav>
     </header>
   )
 }

@@ -38,8 +38,8 @@
 }
 
 .signedInText {
-  padding: 0.7rem 0.8rem;
-  left: 4.6rem;
+  top: 0.6rem;
+  left: 8rem;
 }
 
 .avatar {
@@ -89,4 +89,9 @@
 .navItem {
   display: inline-block;
   margin-right: 1rem;
+}
+
+.homeLink {
+  display: inline-block;
+  padding-top: 0.7rem;
 }
