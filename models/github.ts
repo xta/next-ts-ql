@@ -27,7 +27,7 @@ export function ViewLoginQuery(): string {
 }
 
 export function ViewReposQuery(): string {
-    return `query Repos($owner: String!) {
+    return `query Repos($owner: String!, $cursor: String) {
     repositoryOwner(login: $owner) {
         repositories(
             first: 10
@@ -36,6 +36,7 @@ export function ViewReposQuery(): string {
             isFork: false
             isLocked: false
             orderBy: { field: NAME, direction: ASC }
+            after: $cursor
         ) {
             totalCount
                         
@@ -53,13 +54,15 @@ export function ViewReposQuery(): string {
 }`
 }
 
-interface QueryVariable {
-    owner: string
-}
+export function ViewReposVariables(owner: string, cursor: string): string {
+    if (cursor === '') {
+        return `{
+            "owner": "${owner}" 
+        }`
+    }
 
-export function ViewReposVariables(owner: string): string {
     return `{
-    "owner": "${owner}" 
-}
-    `
+        "owner": "${owner}",
+        "cursor": "${cursor}"
+    }`
 }

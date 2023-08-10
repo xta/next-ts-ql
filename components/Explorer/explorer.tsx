@@ -14,7 +14,10 @@ export default function Explorer() {
 
     const [query, setQuery] = useState(api.ViewLoginQuery)
     const [variables, setVariables] = useState('')
+    const [cursor, setCursor] = useState('')
+
     const [response, setResponse] = useState('loading')
+    const [responseJson, setResponseJson] = useState({})
 
     // user is the github username or login
     const [user, setUser] = useState(USERNAME)
@@ -29,12 +32,13 @@ export default function Explorer() {
         const fetchData = async () => {
             const data = await api.ApiGet(query, variables, key)
             const json = await data.json()
+            setResponseJson(json)
             setResponse(prettyJsonString(json))
         }
 
         fetchData()
             .catch(console.error)
-    }, [key, choice, query, variables, user, response])
+    }, [key, choice, query, variables, cursor, user, response])
 
     let keyMessageStyle = ''
     if (key !== 'loading') {
@@ -54,9 +58,19 @@ export default function Explorer() {
         if (option === 'login') {
             setQuery(api.ViewLoginQuery)
             setVariables('')
+            setResponseJson({})
         } else if (option === 'repos') {
             setQuery(api.ViewReposQuery)
-            setVariables(api.ViewReposVariables(user))
+            setVariables(api.ViewReposVariables(user, ''))
+            setResponseJson({})
+        }
+    }
+
+    function handleNextRepo() {
+        if (responseJson && responseJson.data && responseJson.data.repositoryOwner && responseJson.data.repositoryOwner.repositories && responseJson.data.repositoryOwner.repositories.pageInfo && responseJson.data.repositoryOwner.repositories.pageInfo.endCursor) {
+            setCursor(responseJson.data.repositoryOwner.repositories.pageInfo.endCursor)
+            setVariables(api.ViewReposVariables(user, responseJson.data.repositoryOwner.repositories.pageInfo.endCursor))
+            setResponse('loading')
         }
     }
 
@@ -94,6 +108,8 @@ export default function Explorer() {
 
             <div className={styles.section}>
                 <h3>Result</h3>
+                {!loginButtonSelected && <button onClick={() => handleNextRepo()}>Next</button>}
+
                 <pre className={styles.preWrap}>
                     {(response === 'loading') ? 'Loading...' : response}
                 </pre>
