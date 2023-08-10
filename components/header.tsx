@@ -19,7 +19,8 @@ export default function Header() {
           className={`nojs-show ${!session && loading ? styles.loading : styles.loaded
             }`}
         >
-          <Link href="/" className={styles.homeLink}>Home</Link>
+          <Link href="/" className={styles.homeLink}>Query</Link>{' '}
+          <Link href="/mutate" className={styles.homeLink}>Mutate</Link>
 
           {!session && (
             <>
