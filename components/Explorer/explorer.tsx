@@ -3,28 +3,38 @@ import * as api from '../../models/github'
 
 import styles from './explorer.module.css'
 
+const USERNAME = 'xta'
+
 export default function Explorer() {
+    // key is GH api key
     const [key, setKey] = useState('loading')
-    const [query, setQuery] = useState('')
+
+    // choices are login or repos
+    const [choice, setChoice] = useState('login')
+
+    const [query, setQuery] = useState(api.ViewLoginQuery)
+    const [variables, setVariables] = useState('')
     const [response, setResponse] = useState('loading')
 
-    // on load: get GH secret key from .env.local
+    // user is the github username or login
+    const [user, setUser] = useState(USERNAME)
+
     useEffect(() => {
+        // get GH secret key from .env.local
         const secret = process.env.NEXT_PUBLIC_GITHUB_PERSONAL_ACCESS_TOKEN as string
         setKey(secret)
-        setQuery(api.ViewLoginQuery())
 
         if (key == 'loading' || query == '') return
 
         const fetchData = async () => {
-            const data = await api.ApiGet(query, '', key)
+            const data = await api.ApiGet(query, variables, key)
             const json = await data.json()
             setResponse(prettyJsonString(json))
         }
 
         fetchData()
             .catch(console.error)
-    }, [key, response])
+    }, [key, choice, query, variables, user, response])
 
     let keyMessageStyle = ''
     if (key !== 'loading') {
@@ -35,6 +45,21 @@ export default function Explorer() {
         return JSON.stringify(json, null, 2)
     }
 
+    let loginButtonSelected = choice === 'login'
+
+    function handleChoice(option: string) {
+        setChoice(option)
+        setResponse('loading')
+
+        if (option === 'login') {
+            setQuery(api.ViewLoginQuery)
+            setVariables('')
+        } else if (option === 'repos') {
+            setQuery(api.ViewReposQuery)
+            setVariables(api.ViewReposVariables(user))
+        }
+    }
+
     return (
         <>
             <div className={`${styles.section} ${keyMessageStyle}`}>
@@ -42,9 +67,28 @@ export default function Explorer() {
             </div>
 
             <div className={styles.section}>
+                <h3>Input(s)</h3>
+                <label>
+                    Username <input name="username" value={user} onChange={(e) => { setUser(e.target.value) }} disabled={loginButtonSelected} />
+                </label>
+
+                <div>
+                    <button className={`${styles.buttonChoice} ${loginButtonSelected && styles.selected}`} onClick={() => handleChoice('login')}>View Login</button>
+                    <button className={`${styles.buttonChoice} ${!loginButtonSelected && styles.selected}`} onClick={() => handleChoice('repos')}>View Repos</button>
+                </div>
+            </div>
+
+            <div className={styles.section}>
                 <h3>Query</h3>
                 <pre className={styles.preWrap}>
                     {query}
+                </pre>
+            </div>
+
+            <div className={styles.section}>
+                <h3>Variable(s)</h3>
+                <pre className={styles.preWrap}>
+                    {(variables === '') ? 'N/A' : variables}
                 </pre>
             </div>
 

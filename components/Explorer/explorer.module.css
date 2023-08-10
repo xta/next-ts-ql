@@ -17,3 +17,15 @@
 .preWrap {
     padding-left: 1rem;
 }
+
+.buttonChoice {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-radius: 10px;
+}
+
+.selected {
+    background-color: #38bdf8;
+}
