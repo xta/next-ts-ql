@@ -20,7 +20,8 @@ export default function Header() {
             }`}
         >
           <Link href="/" className={styles.homeLink}>Query</Link>{' '}
-          <Link href="/mutate" className={styles.homeLink}>Mutate</Link>
+          <Link href="/mutate" className={styles.homeLink}>Mutate</Link>{' '}
+          <Link href="/demo" className={styles.homeLink}>Demo</Link>
 
           {!session && (
             <>
