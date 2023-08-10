@@ -16,14 +16,12 @@ export default function Header() {
       </noscript>
       <div className={styles.signedInStatus}>
         <p
-          className={`nojs-show ${
-            !session && loading ? styles.loading : styles.loaded
-          }`}
+          className={`nojs-show ${!session && loading ? styles.loading : styles.loaded
+            }`}
         >
           {!session && (
             <>
               <span className={styles.notSignedInText}>
-                You are not signed in
               </span>
               <a
                 href={`/api/auth/signin`}
@@ -46,8 +44,6 @@ export default function Header() {
                 />
               )}
               <span className={styles.signedInText}>
-                <small>Signed in as</small>
-                <br />
                 <strong>{session.user.email ?? session.user.name}</strong>
               </span>
               <a
@@ -70,22 +66,7 @@ export default function Header() {
             <Link href="/">Home</Link>
           </li>
           <li className={styles.navItem}>
-            <Link href="/client">Client</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/server">Server</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/protected">Protected</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/api-example">API</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/admin">Admin</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/me">Me</Link>
+            <Link href="/me">User</Link>
           </li>
         </ul>
       </nav>
