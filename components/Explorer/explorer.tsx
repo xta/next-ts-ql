@@ -1,27 +1,23 @@
 import { useState, useEffect } from 'react';
-import { ApiGet } from '../../models/github'
+import * as api from '../../models/github'
 
 import styles from './explorer.module.css'
 
 export default function Explorer() {
-
     const [key, setKey] = useState('loading')
+    const [query, setQuery] = useState('')
     const [response, setResponse] = useState('loading')
-
-    const query = `query { 
-    viewer { 
-        login
-    }
-}`
 
     // on load: get GH secret key from .env.local
     useEffect(() => {
         const secret = process.env.NEXT_PUBLIC_GITHUB_PERSONAL_ACCESS_TOKEN as string
         setKey(secret)
-        if (key == 'loading') return
+        setQuery(api.ViewLoginQuery())
+
+        if (key == 'loading' || query == '') return
 
         const fetchData = async () => {
-            const data = await ApiGet(query, '', key)
+            const data = await api.ApiGet(query, '', key)
             const json = await data.json()
             setResponse(prettyJsonString(json))
         }
