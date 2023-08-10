@@ -13,3 +13,7 @@
 .keyMessageSuccess {
     background-color: #bbf7d0;
 }
+
+.preWrap {
+    padding-left: 1rem;
+}
