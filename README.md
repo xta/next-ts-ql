@@ -5,12 +5,16 @@
 ```bash
 npm install
 
+cp .env.local.example .env.local
+
 ## make sure .env.local is setup
 OKTA_OAUTH2_ISSUER=...
 OKTA_OAUTH2_CLIENT_ID=...
 OKTA_OAUTH2_CLIENT_SECRET=...
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=...
+
+NEXT_PUBLIC_GITHUB_PERSONAL_ACCESS_TOKEN=
 ```
 
 ### Usage

@@ -1,0 +1,11 @@
+.keyMessage {
+    padding: 1rem;
+}
+
+.keyMessageError {
+    background-color: rosybrown;
+}
+
+.keyMessageSuccess {
+    background-color: #bbf7d0;
+}
